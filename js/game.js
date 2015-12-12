@@ -13,9 +13,10 @@ function Game() {
 
   this.players = [];
 
-  for (var i = 0; i < 4; i++) {
-    this.players.push(new Player(this, 0, 0, 0, 0));
-  }
+  this.server;
+
+  // 0: choose server or client, 1: wait for players, 2: play game
+  this.state = 0;
 
   this.create_field = function () {
     this.field = new Field(300, 300);
@@ -51,16 +52,51 @@ function Game() {
   this.preload = function () {
     //TODO: load assets (images, sprites, sounds)
     this.game.load.image('world_background', 'assets/background.png');
-  }
+    this.game.load.image('knopje', 'assets/knopje.png');
+  };
 
   this.create = function () {
     //TODO: create views
+    var client_button = new Phaser.Button(this.game, 10, 10, 'knopje', this.choose_client);
+    var server_button = new Phaser.Button(this.game, 100, 10, 'knopje', this.choose_server);
     new FieldView(this.game, this.field);
     new BallView(this.game, this.ball);
-  }
+  };
 
   this.update = function () {
     //TODO: update models
     this.ball.tick();
+  };
+
+  this.choose_client = function() {
+    console.log("You chose client");
+  };
+
+  this.choose_server = function() {
+    console.log("You chose server");
+    this.server = new Server();
+    server.on('connection', function(connection) {
+    if (players.length < player_count)
+    {
+      var player = new Player(this, 0, 0, 0, 0);
+      var inputController = new InputController(player, connection);
+      this.players.push(player);
+    }
+    connection.on('open', function() {
+      player.ready = true;
+      var all_ready = true;
+      for (p in this.players)
+      {
+        if (!p.ready)
+        {
+          all_ready = false;
+        }
+      }
+      if (all_ready)
+      {
+        // start actual game
+      }
+      });
+    });
   }
 }
