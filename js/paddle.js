@@ -31,8 +31,12 @@ function Paddle(max_p1, max_p2, width, height, player) {
   };
 
   this.tick = function() {
-    
-    set_positions();
+    b1, b2 = this.player.get_state();
+    if( !((b1 == false && b2 == false) || (b1 == true && b2 == true)) ) {
+      //TODO controle op welke kant de Paddle op moet, en deze dan ook deze kant op verplaatsen. Let hier op de angle. 
+
+      set_positions();
+    }
   };
 
 }

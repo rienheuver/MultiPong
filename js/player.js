@@ -13,10 +13,12 @@ function Player(game, max_p1, max_p2, width,height) {
     return this.paddle;
   };
 
-  this.get_state = function
+  this.get_state = function () {
+    return this.state;
+  };
 
   this.tick = function() {
-
+    this.paddle.tick();
   };
 
 }
