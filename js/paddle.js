@@ -31,7 +31,8 @@ function Paddle(max_p1, max_p2, width, height, player) {
   };
 
   this.tick = function() {
-
+    
+    set_positions();
   };
 
 }
