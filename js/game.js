@@ -5,14 +5,14 @@ function Game() {
   this.loader;
 
   this.ball = new Ball(150, 150);
-  this.field = new Field(300, 300);
+  this.field = new Field(800, 600);
 
   this.views = [];
 
   this.players = [];
 
   for (var i = 0; i < 4; i++) {
-    this.players.push(new Player(this));
+    this.players.push(new Player(this, 0, 0, 0, 0));
   }
 
   this.is_game_over = function () {
@@ -31,16 +31,21 @@ function Game() {
       player = players[i];
       player.tick();
     }
-  }
+  };
 
-  this.game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+  this.start = function () {
+    this.game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+  }
 
   function preload() {
     //TODO: load assets (images, sprites, sounds)
+    this.game.load.image('world_background', 'assets/background.png');
   }
 
   function create() {
     //TODO: create views
+    new FieldView(this.game, this.field);
   }
 
   function update() {
