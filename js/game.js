@@ -2,9 +2,13 @@ function Game() {
 
   this.renderer;
   this.stage;
+  this.loader;
 
   this.ball = new Ball(150, 150);
   this.field = new Field(300, 300);
+
+  this.views = [];
+
   this.players = [];
 
   for (var i = 0; i < 4; i++) {
@@ -26,28 +30,20 @@ function Game() {
     for (var i in this.players) {
       player = players[i];
       player.tick();
-    };
+    }
+  }
 
-  this.start = function () {
-    var width = window.innerWidth;
-    var height = window.innerHeight;
-    this.renderer = new PIXI.autoDetectRenderer(width, height);
-    this.stage = new PIXI.Container(0x66FF99);
-    this.renderer.autoResize = true;
+  this.game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
-    document.body.appendChild(this.renderer.view);
+  function preload() {
+    //TODO: load assets (images, sprites, sounds)
+  }
 
-    this.animate();
-  };
+  function create() {
+    //TODO: create views
+  }
 
-  this.animate = function () {
-    requestAnimationFrame(this.animate.bind(this));
-
-    // render the stage
-    var width = window.innerWidth;
-    var height = window.innerHeight;
-    this.renderer.resize(width, height);
-
-    this.renderer.render(this.stage);
-  };
+  function update() {
+    //TODO: update models
+  }
 }
