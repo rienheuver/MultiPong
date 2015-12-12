@@ -1,19 +1,18 @@
-MultiPong.MainMenu = function(game) {};
+MultiPong.MainMenu = function (game) {
+};
 
 MultiPong.MainMenu.prototype = {
 
-  create: function() {
+  create: function () {
     this.client_button = this.add.button(10, 10, 'knopje', this.client, this);
     this.server_button = this.add.button(400, 10, 'knopje', this.server, this);
   },
 
-  client: function()
-  {
+  client: function () {
     this.state.start('ClientWaiting');
   },
 
-  server: function()
-  {
+  server: function () {
     this.state.start('ServerGame');
   }
 };

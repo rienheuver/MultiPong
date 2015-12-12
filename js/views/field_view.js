@@ -7,17 +7,17 @@ function FieldView(game, field_model) {
   this.game = game;
 
   this.game.add.sprite(0, 0, 'world_background');
-  this.graphics = game.add.graphics(0,0);
+  this.graphics = game.add.graphics(0, 0);
   this.graphics.lineStyle(1, 0x00ff00, 1);
 
   this.circle = new Phaser.Circle(game.world.centerX, game.world.centerY, Math.min(game.world.centerY, game.world.centerX));
 
   //this.graphics.drawCircle(this.circle.x, this.circle.y, this.circle.diameter*2);
 
-  var vertices = this.field_model.get_polygon(this.circle.x, this.circle.y, Math.min(game.world.centerY, game.world.centerX), Math.PI/2);
+  var vertices = this.field_model.get_polygon(this.circle.x, this.circle.y, Math.min(game.world.centerY, game.world.centerX), Math.PI / 2);
 
-  for(var i = 0; i < vertices.length; i++) {
-    if(i%2==0) {
+  for (var i = 0; i < vertices.length; i++) {
+    if (i % 2 == 0) {
       this.graphics.moveTo(vertices[i].x, vertices[i].y);
     } else {
       this.graphics.lineTo(vertices[i].x, vertices[i].y);

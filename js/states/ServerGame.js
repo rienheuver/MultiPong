@@ -1,8 +1,9 @@
-MultiPong.ServerGame = function(game) {};
+MultiPong.ServerGame = function (game) {
+};
 
 MultiPong.ServerGame.prototype = {
 
-  create: function() {
+  create: function () {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
   }

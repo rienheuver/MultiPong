@@ -16,7 +16,7 @@ Field.prototype.get_polygon = function (cx, cy, r) {
   var center_ang = 2 * Math.PI / n;
   var start_ang;
 
-  if (n%2 == 1) {
+  if (n % 2 == 1) {
     start_ang = Math.PI / 2;  //12 oclock
   } else {
     start_ang = Math.PI / 2 - center_ang / 2;
