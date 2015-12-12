@@ -5,14 +5,22 @@ function Game() {
   this.loader;
 
   this.ball = new Ball(150, 150);
-  this.field = new Field(300, 300);
+  this.player_count = 4; //TODO Dynamisch aantal
+
+  this.field = new Field(800, 600);
 
   this.views = [];
 
   this.players = [];
 
   for (var i = 0; i < 4; i++) {
-    this.players.push(new Player(this));
+    this.players.push(new Player(this, 0, 0, 0, 0));
+  }
+
+  this.create_field = function () {
+    this.field = new Field(300, 300);
+
+    //TODO het aantal spelers over een cirkel punten zetten, en tussen de players muren plaatsen
   }
 
   this.is_game_over = function () {
@@ -21,7 +29,7 @@ function Game() {
       paddle = player.get_paddle();
       x1, y1 = paddle.p1;
       x2, y2 = paddle.p2;
-      // TODO: de rest van de functie
+      // TODO: de rest van de functie. Controleren of de bal achter een paddle ligt.
     }
   };
 
@@ -30,34 +38,27 @@ function Game() {
     for (var i in this.players) {
       player = players[i];
       player.tick();
-    };
+    }
+
+    //TODO Controleren op een collission en de bal terugstuiteren.
+  }
 
   this.start = function () {
-    var width = window.innerWidth;
-    var height = window.innerHeight;
-    this.renderer = new PIXI.autoDetectRenderer(width, height);
-    this.stage = new PIXI.Container(0x66FF99);
+    this.game = new Phaser.Game(800, 600, Phaser.AUTO, '', {preload: preload, create: create, update: update});
 
-    this.renderer.resize = true;
-    this.renderer.view.style.display = "block";
-    this.renderer.view.style.width = "100%"
-    this.renderer.view.style.height = "100%"
+  }
 
-    this.loader = PIXI.loader;
-    this.create_views();
-    this.loader.once('complete', this.animate.bind(this));
+  function preload() {
+    //TODO: load assets (images, sprites, sounds)
+    this.game.load.image('world_background', 'assets/background.png');
+  }
 
-    document.body.appendChild(this.renderer.view);
+  function create() {
+    //TODO: create views
+    new FieldView(this.game, this.field);
+  }
 
-
-  };
-
-  this.animate = function () {
-    this.renderer.render(this.stage);
-    requestAnimationFrame(this.animate.bind(this));
-  };
-
-  this.create_views = function() {
-    this.field_fiew = new FieldView(this.stage, this.loader, this.field);
+  function update() {
+    //TODO: update models
   }
 }
