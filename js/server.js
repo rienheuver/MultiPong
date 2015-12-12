@@ -1,7 +1,7 @@
 function Server()
 {
   this.id = makeid();
-  this.server = new Peer(id, {host: 'localhost', port: 9000, path: '/', debug: 3});
+  this.server = new Peer(this.id, {host: 'localhost', port: 9000, path: '/', debug: 3});
 }
 
 function makeid()
