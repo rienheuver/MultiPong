@@ -5,14 +5,20 @@ function Game() {
   this.loader;
 
   this.ball = new Ball(150, 150);
-  this.field = new Field(300, 300);
+  this.player_count = 4; //TODO Dynamisch aantal
 
   this.views = [];
 
   this.players = [];
 
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < this.player_count; i++) {
     this.players.push(new Player(this));
+  }
+
+  this.create_field = function() {
+    this.field = new Field(300, 300);
+
+    //TODO het aantal spelers over een cirkel punten zetten, en tussen de players muren plaatsen
   }
 
   this.is_game_over = function () {
@@ -21,7 +27,7 @@ function Game() {
       paddle = player.get_paddle();
       x1, y1 = paddle.p1;
       x2, y2 = paddle.p2;
-      // TODO: de rest van de functie
+      // TODO: de rest van de functie. Controleren of de bal achter een paddle ligt.
     }
   };
 
@@ -31,6 +37,8 @@ function Game() {
       player = players[i];
       player.tick();
     }
+
+    //TODO Controleren op een collission en de bal terugstuiteren.
   }
 
   this.game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
