@@ -3,12 +3,13 @@ MultiPong.ServerWaiting = function(game) {};
 MultiPong.ServerWaiting.prototype = {
 
   create: function() {
-    this.game.connection = new Server();
+    this.connection = new Server();
 
-    this.add.text(400,300,this.game.connection.id);
-
-    this.game.connection.server.on('connection', function(new_conn) {
-    if (players.length < player_count)
+    this.add.text(400,300,this.connection.id);
+    this.player_count = 4;
+    // temporary hardcoded
+    this.connection.server.on('connection', function(new_conn) {
+    if (this.players.length < this.player_count)
     {
       var player = new Player(this, 0, 0, 0, 0);
       var inputController = new InputController(player, new_conn);

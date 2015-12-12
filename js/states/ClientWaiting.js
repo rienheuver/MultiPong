@@ -1,10 +1,19 @@
-MultiPong.ClientWaint = function(game) {};
+MultiPong.ClientWaiting = function(game) {};
 
 MultiPong.ClientWaiting.prototype = {
 
   create: function() {
-    this.client_button = this.add.button(10, 10, 'knopje', this.client, this);
-    this.server_button = this.add.button(400, 10, 'knopje', this.server, this);
+    var connection_id = document.createElement('input');
+    connection_id.type = 'number';
+    document.body.appendChild(connection_id);
+
+    peer2 = new Peer({host: '130.89.138.104', port: 9000, path: '/', debug: 3});
+    var c = peer2.connect('hardcoded');
+    console.log(c);
+    c.on('data', function(data) {
+      console.log(data);
+      c.send(' peer');
+    });
   },
 
   client: function()
