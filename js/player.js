@@ -2,6 +2,7 @@ function Player(game, max_p1, max_p2, width,height) {
   this.state = {b1: false, b2: false};
   this.game = game;
   this.paddle = new Paddle(max_p1, max_p2, width,height, this);
+  this.ready = false;
 
   this.handle_input = function (input) {
     b1,b2 = input;
