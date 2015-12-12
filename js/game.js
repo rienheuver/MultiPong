@@ -5,7 +5,7 @@ function Game() {
   this.loader;
 
   this.ball = new Ball(150, 150);
-  this.player_count = 4; //TODO Dynamisch aantal
+  this.player_count = 3; //TODO Dynamisch aantal
 
   this.field = new Field(800, 600, this.player_count);
 
@@ -56,9 +56,11 @@ function Game() {
   this.create = function () {
     //TODO: create views
     new FieldView(this.game, this.field);
+    new BallView(this.game, this.ball);
   }
 
   this.update = function () {
     //TODO: update models
+    this.ball.tick();
   }
 }
