@@ -7,15 +7,17 @@ function Game() {
   this.ball = new Ball(150, 150);
   this.player_count = 4; //TODO Dynamisch aantal
 
+  this.field = new Field(800, 600);
+
   this.views = [];
 
   this.players = [];
 
-  for (var i = 0; i < this.player_count; i++) {
-    this.players.push(new Player(this));
+  for (var i = 0; i < 4; i++) {
+    this.players.push(new Player(this, 0, 0, 0, 0));
   }
 
-  this.create_field = function() {
+  this.create_field = function () {
     this.field = new Field(300, 300);
 
     //TODO het aantal spelers over een cirkel punten zetten, en tussen de players muren plaatsen
@@ -41,14 +43,19 @@ function Game() {
     //TODO Controleren op een collission en de bal terugstuiteren.
   }
 
-  this.game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+  this.start = function () {
+    this.game = new Phaser.Game(800, 600, Phaser.AUTO, '', {preload: preload, create: create, update: update});
+
+  }
 
   function preload() {
     //TODO: load assets (images, sprites, sounds)
+    this.game.load.image('world_background', 'assets/background.png');
   }
 
   function create() {
     //TODO: create views
+    new FieldView(this.game, this.field);
   }
 
   function update() {
