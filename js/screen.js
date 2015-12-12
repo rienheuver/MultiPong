@@ -1,7 +1,10 @@
-var peer = new Peer('multi-pong-server', {host: '130.89.176.157', port: 9000, path: '/'}); 
-peer.on('connection', function(conn) {
-  conn.on('data', function(data){
-    // Will print 'hi!'
-    console.log(data);
-  });
+var peer = new Peer('multi-pong-server', {key: '5ciq8bfxpc766r', debug: 3});
+peer.on('connection', function (conn) {
+
+    console.log('blaat');
+
+    conn.on('data', function (data) {
+        // Will print 'hi!'
+        console.log(data);
+    });
 });

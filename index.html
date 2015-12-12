@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MultiPong by Fris en Fruitig</title>
+    <script src="libs/pixi.min.js"></script>
+</head>
+<body>
+
+<script>
+
+    // create an new instance of a pixi stage
+    var stage = new PIXI.Container(0x66FF99);
+
+    // create a renderer instance.
+    var renderer = PIXI.autoDetectRenderer(400, 300);
+
+    // add the renderer view element to the DOM
+    document.body.appendChild(renderer.view);
+
+    requestAnimationFrame(animate);
+
+    function animate() {
+
+        requestAnimationFrame(animate);
+
+        // render the stage
+        renderer.render(stage);
+    }
+
+</script>
+
+</body>
+</html>
