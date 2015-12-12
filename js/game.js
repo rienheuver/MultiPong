@@ -2,9 +2,13 @@ function Game() {
 
   this.renderer;
   this.stage;
+  this.loader;
 
   this.ball = new Ball(150, 150);
   this.field = new Field(300, 300);
+
+  this.views = [];
+
   this.players = [];
 
   for (var i = 0; i < 4; i++) {
@@ -33,21 +37,27 @@ function Game() {
     var height = window.innerHeight;
     this.renderer = new PIXI.autoDetectRenderer(width, height);
     this.stage = new PIXI.Container(0x66FF99);
-    this.renderer.autoResize = true;
+
+    this.renderer.resize = true;
+    this.renderer.view.style.display = "block";
+    this.renderer.view.style.width = "100%"
+    this.renderer.view.style.height = "100%"
+
+    this.loader = PIXI.loader;
+    this.create_views();
+    this.loader.once('complete', this.animate.bind(this));
 
     document.body.appendChild(this.renderer.view);
 
-    this.animate();
+
   };
 
   this.animate = function () {
-    requestAnimationFrame(this.animate.bind(this));
-
-    // render the stage
-    var width = window.innerWidth;
-    var height = window.innerHeight;
-    this.renderer.resize(width, height);
-
     this.renderer.render(this.stage);
+    requestAnimationFrame(this.animate.bind(this));
   };
+
+  this.create_views = function() {
+    this.field_fiew = new FieldView(this.stage, this.loader, this.field);
+  }
 }
