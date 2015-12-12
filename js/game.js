@@ -45,6 +45,8 @@ Game.prototype.start = function () {
 	this.game.state.add('MainMenu', MultiPong.MainMenu);
 	this.game.state.add('ServerWaiting', MultiPong.ServerWaiting);
   this.game.state.add('ClientWaiting', MultiPong.ClientWaiting);
+  this.game.state.add('ServerGame', MultiPong.ServerGame);
+
 
 	this.game.state.start('Boot');
 };
