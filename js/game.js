@@ -30,34 +30,20 @@ function Game() {
     for (var i in this.players) {
       player = players[i];
       player.tick();
-    };
+    }
+  }
 
-  this.start = function () {
-    var width = window.innerWidth;
-    var height = window.innerHeight;
-    this.renderer = new PIXI.autoDetectRenderer(width, height);
-    this.stage = new PIXI.Container(0x66FF99);
+  this.game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
-    this.renderer.resize = true;
-    this.renderer.view.style.display = "block";
-    this.renderer.view.style.width = "100%"
-    this.renderer.view.style.height = "100%"
+  function preload() {
+    //TODO: load assets (images, sprites, sounds)
+  }
 
-    this.loader = PIXI.loader;
-    this.create_views();
-    this.loader.once('complete', this.animate.bind(this));
+  function create() {
+    //TODO: create views
+  }
 
-    document.body.appendChild(this.renderer.view);
-
-
-  };
-
-  this.animate = function () {
-    this.renderer.render(this.stage);
-    requestAnimationFrame(this.animate.bind(this));
-  };
-
-  this.create_views = function() {
-    this.field_fiew = new FieldView(this.stage, this.loader, this.field);
+  function update() {
+    //TODO: update models
   }
 }
