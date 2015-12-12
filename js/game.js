@@ -1,4 +1,7 @@
 function Game () {
+
+  this.stage = PIXI.
+
   this.ball = new Ball(0,0);
   this.field = new Field(300,300);
   this.players = []

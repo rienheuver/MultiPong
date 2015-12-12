@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>MultiPong by Fris en Fruitig</title>
+    <!-- Load libraries required -->
     <script src="libs/pixi.min.js"></script>
+
+    <!-- Load the required classes for the game -->
+    <script src="js/game.js"></script>
+    <script src="js/field.js"></script>
+    <script src="js/ball.js"></script>
+    <script src="js/paddle.js"></script>
+    <script src="js/player.js"></script>
+
 </head>
 <body>
 
@@ -14,6 +23,7 @@
 
     // create a renderer instance.
     var renderer = PIXI.autoDetectRenderer(400, 300);
+    renderer.autoResize = true;
 
     // add the renderer view element to the DOM
     document.body.appendChild(renderer.view);
@@ -25,6 +35,10 @@
         requestAnimationFrame(animate);
 
         // render the stage
+        var width = window.innerWidth;
+        var height = window.innerHeight;
+        renderer.resize(width, height);
+
         renderer.render(stage);
     }
 
