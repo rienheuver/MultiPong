@@ -1,0 +1,20 @@
+{
+  "name": "MultiPong",
+  "version": "0.0.0",
+  "homepage": "https://github.com/rienheuver/MultiPong",
+  "authors": [
+    "Rien Heuver <rienheuver@gmail.com>"
+  ],
+  "description": "Play it, it is awesome",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "webrtc-adapter": "~0.2.5"
+  }
+}
