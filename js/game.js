@@ -17,17 +17,16 @@ function Game() {
       paddle = player.get_paddle();
       x1, y1 = paddle.p1;
       x2, y2 = paddle.p2;
-      var func = function (x) {
-        var a = (x2 - x1) / Math.abs(y2 - y1);
-        var b = y1 - a * x1;
-        return a * x + b;
-      };
+      // TODO: de rest van de functie
     }
   };
 
   this.tick = function () {
     this.ball.tick();
-  };
+    for (var i in this.players) {
+      player = players[i];
+      player.tick();
+    };
 
   this.start = function () {
     var width = window.innerWidth;

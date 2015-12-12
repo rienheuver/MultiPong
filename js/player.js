@@ -1,13 +1,20 @@
-function Player(game) {
+function Player(game, max_p1, max_p2, width,height) {
+  this.state = {b1: false, b2: false};
   this.game = game;
-  this.paddle = new Paddle({x: 1, y: 1}, {x: 2, y: 2}, {x: 3, y: 3}, {x: 4, y: 4});
+  this.paddle = new Paddle(max_p1, max_p2, width,height, this);
 
   this.handle_input = function (input) {
-    game.handle_input(input);
+    b1,b2 = input;
+    state.b1 = b1;
+    state.b2 = b2;
   };
 
   this.get_paddle = function () {
     return this.paddle;
+  };
+
+  this.tick = function() {
+
   };
 
 }

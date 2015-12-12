@@ -4,6 +4,7 @@ function Ball(x, y) {
 
   this.dx = 2;
   this.dy = 2;
+
   this.tick = function () {
     this.x += dx;
     this.y += dy;
