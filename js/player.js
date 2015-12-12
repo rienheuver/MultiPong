@@ -4,4 +4,5 @@ function Player (game) {
   this.handle_input = function(input) {
     game.handle_input(input);
   };
+  this.get_paddle = new
 }
