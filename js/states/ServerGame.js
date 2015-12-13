@@ -92,11 +92,11 @@ MultiPong.ServerGame.prototype = {
       //this.check_input(this.players[p]);
 
       // create paddle
-      x = Math.sin(point/(length*2) * Math.pi * 2);
-      y = Math.cos(point/(length*2) * Math.pi * 2);
+      x = Math.sin(point/(length*2) * Math.pi * 2) * width + width/2;
+      y = Math.cos(point/(length*2) * Math.pi * 2) * height + height/2;
 
-      next_x = Math.sin((point+1)/(length*2) * Math.pi * 2);
-      next_y = Math.cos((point+1)/(length*2) * Math.pi * 2);
+      next_x = Math.sin((point+1)/(length*2) * Math.pi * 2) * width + width/2;
+      next_y = Math.cos((point+1)/(length*2) * Math.pi * 2) * height + height/2;
 
       max_p1 = {x,y};
       max_p2 = {next_x, next_y};
@@ -115,7 +115,7 @@ MultiPong.ServerGame.prototype = {
       shapeGr.lineTo(paddle_model.p2.x,paddle_model.p2.y);
       shapeGr.boundsPadding = 0;
       paddle.addChild(shapeGr);
-      paddle.body.addRectangle(100,5,75,2);
+      paddle.body.addRectangle(paddle_model.p1.x,paddle_model.p1.y,0,0);
       paddle.body.adjustCenterOfMass();
       paddle.body.removeShape(paddle.body.data.shapes[0]);
       paddle.body.damping = 0;
@@ -128,11 +128,11 @@ MultiPong.ServerGame.prototype = {
       point++;
       // create paddle
 
-      x = Math.sin(point/(length*2) * Math.pi * 2);
-      y = Math.cos(point/(length*2) * Math.pi * 2);
+      x = Math.sin(point/(length*2) * Math.pi * 2) * width + width/2;
+      y = Math.cos(point/(length*2) * Math.pi * 2) * height + height/2;
 
-      next_x = Math.sin((point+1)/(length*2) * Math.pi * 2);
-      next_y = Math.cos((point+1)/(length*2) * Math.pi * 2);
+      next_x = Math.sin((point+1)/(length*2) * Math.pi * 2) * width + width/2;
+      next_y = Math.cos((point+1)/(length*2) * Math.pi * 2) * height + height/2;
 
       max_p1 = {x,y};
       max_p2 = {next_x, next_y};
@@ -142,14 +142,14 @@ MultiPong.ServerGame.prototype = {
       paddle_model = new Paddle(max_p1, max_p2, paddle_width, paddle_height, null);
 
       // TODO Create shape of the wall;
-      var paddle = paddles.create(paddle_model.middle.x,paddle_model.middle.y);
+      var wall = walls.create(paddle_model.middle.x,paddle_model.middle.y);
       var shapeGr = this.add.graphics();
       shapeGr.lineStyle(5, 0x1d428a, 1);
       shapeGr.moveTo(paddle_model.p1.x,paddle_model.p1.y);
       shapeGr.lineTo(paddle_model.p2.x,paddle_model.p2.y);
       shapeGr.boundsPadding = 0;
       wall.addChild(shapeGr);
-      wall.body.addRectangle(100,5,75,2);
+      wall.body.addRectangle(paddle_model.p1.x,paddle_model.p1.y,0,0);
       wall.body.adjustCenterOfMass();
       wall.body.removeShape(paddle.body.data.shapes[0]);
       wall.body.damping = 0;
