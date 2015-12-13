@@ -16,19 +16,38 @@ function Paddle(max_p1, max_p2, width, height, player) {
 
   this.set_positions(this.middle);
 
+  this.position = 0;
+
   this.tick = function () {
     b1, b2 = this.player.get_state();
     if (!((b1 == false && b2 == false) || (b1 == true && b2 == true))) {
       //TODO controle op welke kant de Paddle op moet, en deze dan ook deze kant op verplaatsen. Let hier op de angle.
       if(b1 == true) {
-
+        // move right
+        this.position += 10;
+        if(this.position > distance(max_p1.x - max_p2.x, max_p1.y - max_p2.y) / 2) {
+          this.position = distance(max_p1.x - max_p2.x, max_p1.y - max_p2.y) / 2;
+        }
       }
-      else if(b2 == true) {}
+      else if(b2 == true) {
+        // move left
+        this.position -= 10;
+        if(this.position < distance(max_p1.x - max_p2.x, max_p1.y - max_p2.y) / 2) {
+          this.position = -distance(max_p1.x - max_p2.x, max_p1.y - max_p2.y) / 2;
+        }
+      }
+      var angle = Math.atan2(this.max_p2.y - this.max_p1.y, this.max_p2.x - this.max_p1.x);
+      var new_middle = {x: 0, y:0};
+      new_middle.x = this.middle.x + position * Math.sin(angle);
+      new_middle.y = this.middle.y + position * Math.cos(angle);
 
-      set_positions(middle);
+      set_positions(new_middle);
     }
   };
+}
 
+var distance = function(a,b) {
+  return Math.sqrt(a*a, b*b);
 }
 
 Paddle.prototype.set_positions = function (middle) {
