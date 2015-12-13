@@ -13,65 +13,65 @@ MultiPong.ServerGame.prototype = {
   },
 
   preload: function () {
-    this.load.image('dude', 'assets/pangball.png');
     this.load.image('ball', 'assets/pangball.png');
   },
 
   create: function () {
+    this.physics.startSystem(Phaser.Physics.P2JS);
+    this.physics.p2.setImpactEvents(true);
+    this.physics.p2.defaultRestitution = 0;
+    this.physics.p2.applyDamping = false;
+    this.physics.p2.friction = 0;
 
-    /*
+    var paddlesCollisionGroup = this.physics.p2.createCollisionGroup();
+    var wallsCollisionGroup = this.physics.p2.createCollisionGroup();
 
-    this.physics.startSystem(Phaser.Physics.ARCADE);
+    this.physics.p2.updateBoundsCollisionGroup();
 
-    shapeGr = this.add.graphics();
-    shapeGr.lineStyle(5, 0x00ff00, 1);
-    shapeGr.moveTo(110, 100);
-    shapeGr.lineTo(110, 0);
+    var paddles = this.add.group();
+    paddles.enableBody = true;
+    paddles.physicsBodyType = Phaser.Physics.P2JS;
 
-    // Remove the 10 pixel padding added to graphics by default
-    shapeGr.boundsPadding = 0;
+    for (var i=0;i<4;i++)
+    {
+      var paddle = paddles.create(80*(i+3),80*(i+3));
+      var shapeGr = this.add.graphics();
+      shapeGr.lineStyle(5, 0x1d428a, 1);
+      shapeGr.moveTo(0,0);
+      shapeGr.lineTo(100,0);
+      shapeGr.boundsPadding = 0;
+      paddle.addChild(shapeGr);
+      paddle.body.addRectangle(100,5,75,2);
+      paddle.body.adjustCenterOfMass();
+      paddle.body.removeShape(paddle.body.data.shapes[0]);
+      paddle.body.damping = 0;
+      paddle.body.kinematic = true;
+      paddle.body.setCollisionGroup(paddlesCollisionGroup);
+      paddle.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
+      paddle.body.rotation = 36;
+      paddle.body.moveLeft(5);
+    }
 
-    // Create an empty sprite as a container
-    shapeSprite = this.add.sprite(200, 200);
+    var walls = this.add.group();
+    walls.enableBody = true;
+    walls.physicsBodyType = Phaser.Physics.P2JS;
 
-    // Add the graphics to the sprite as a child
-    shapeSprite.addChild(shapeGr);
-    shapeSprite.enableBody = true;
-    shapeSprite.physicsBodyType = Phaser.Physics.ARCADE;
-    // this.physics.enable(shapeSprite, Phaser.Physics.NINJA);
+    for (var i=0;i<4;i++)
+    {
+      var wall = walls.create(200+50*i,200,'ball');
+      wall.body.setRectangle(40,40);
+      wall.body.damping = 0;
+      wall.body.debug = true;
+      wall.body.setCollisionGroup(wallsCollisionGroup);
+      wall.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
+      wall.body.rotateLeft(50+100*i);
+      wall.body.thrust(200000);
+    }
 
-    // Overlap should now work
-    //this.physics.arcade.overlap(ball.body, shapeSprite, gotHit, null, this);
-
-    */
-
-    cursors = this.input.keyboard.createCursorKeys();
-
-    //  This creates a simple sprite that is using our loaded image and
-    //  displays it on-screen
-    //  and assign it to a variable
-    ball = this.add.sprite(400, 200, 'ball');
-
-    knocker = this.add.sprite(400, 200, 'dude');
-
-    this.physics.enable([knocker, ball], Phaser.Physics.ARCADE);
-
-    knocker.body.immovable = false;
-
-    //  This gets it moving
-    ball.body.velocity.setTo(200, 200);
-
-    //  This makes the game world bounce-able
-    ball.body.collideWorldBounds = true;
-
-    //  This sets the image bounce energy for the horizontal
-    //  and vertical vectors (as an x,y point). "1" is 100% energy return
-    ball.body.bounce.setTo(1, 1);
-
-    var width = 800;
+    /*var width = 800;
     var height = 600;
 
-    var length = players.length;
+    var length = this.players.length;
     var point = 0;
 
     var x;
@@ -126,34 +126,11 @@ MultiPong.ServerGame.prototype = {
       // TODO Create shape of the wall;
 
       point++;
-    }
+    }*/
   },
 
   update: function () {
-    this.physics.arcade.collide(knocker, ball);
-    this.physics.arcade.collide(knocker, shapeSprite);
-    this.physics.arcade.collide(ball, shapeSprite);
-
-    if (cursors.up.isDown) {
-      knocker.body.velocity.y = -500;
-    }
-    else if (cursors.down.isDown) {
-      knocker.body.velocity.y = 500;
-    }
-    else {
-      knocker.body.velocity.y = 0;
-    }
-    if (cursors.left.isDown) {
-      knocker.body.velocity.x = -500;
-    }
-    else if (cursors.right.isDown) {
-      knocker.body.velocity.x = 500;
-    }
-    else {
-      knocker.body.velocity.x = 0;
-    }
-
-    for(var p in players) {
+    /*for(var p in players) {
       player = players[p];
 
       paddle = player.get_paddle;
@@ -162,7 +139,7 @@ MultiPong.ServerGame.prototype = {
       paddle.tick();
 
       // TODO Redraw paddle;
-    }
+    }*/
   },
 
   check_input: function(player) {
