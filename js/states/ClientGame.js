@@ -12,8 +12,10 @@ MultiPong.ClientGame.prototype =
 
   create: function ()
   {
-    var links = this.add.button(this.world.centerX-120,this.world.centerY,'button_left',this.left_click,this,1,2);
-    var rechts = this.add.button(this.world.centerX+20,this.world.centerY,'button_right',this.right_click,this,1,2);
+    var links = this.add.button(this.world.centerX-(this.world.centerX/2+100),this.world.centerY,'button_left',this.left_click,this,1,2);
+    links.scale.setTo(2,2);
+    var rechts = this.add.button(this.world.centerX+(this.world.centerX/2-100),this.world.centerY,'button_right',this.right_click,this,1,2);
+    rechts.scale.setTo(2,2);
   },
 
   left_click: function()

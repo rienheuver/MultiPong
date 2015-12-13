@@ -2,14 +2,15 @@ MultiPong.ServerGame = function (game) {
   this.players = [];
   this.connection;
   this.paddle_array = [];
+  this.constant_distance = 100;
 };
 
 MultiPong.ServerGame.prototype = {
 
   init: function(players, connection) {
-    console.log(players);
     this.players = players;
     this.connection = connection;
+    this.game_over = false;
   },
 
   preload: function () {
@@ -26,6 +27,7 @@ MultiPong.ServerGame.prototype = {
 
     var paddlesCollisionGroup = this.physics.p2.createCollisionGroup();
     var wallsCollisionGroup = this.physics.p2.createCollisionGroup();
+    var ballCollisionGroup = this.physics.p2.createCollisionGroup();
 
     this.physics.p2.updateBoundsCollisionGroup();
 
@@ -33,47 +35,22 @@ MultiPong.ServerGame.prototype = {
     paddles.enableBody = true;
     paddles.physicsBodyType = Phaser.Physics.P2JS;
 
-    /*for (var i=0;i<4;i++)
-    {
-      var paddle = paddles.create(80*(i+3),80*(i+3));
-      var shapeGr = this.add.graphics();
-      shapeGr.lineStyle(5, 0x1d428a, 1);
-      shapeGr.moveTo(0,0);
-      shapeGr.lineTo(100,0);
-      shapeGr.boundsPadding = 0;
-      paddle.addChild(shapeGr);
-      paddle.body.addRectangle(100,5,75,2);
-      paddle.body.adjustCenterOfMass();
-      paddle.body.removeShape(paddle.body.data.shapes[0]);
-      paddle.body.damping = 0;
-      paddle.body.kinematic = true;
-      paddle.body.debug = true;
-      paddle.body.setCollisionGroup(paddlesCollisionGroup);
-      paddle.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
-      paddle.body.rotation = 36;
-      paddle.body.moveLeft(50);
-    }*/
+    this.ball = paddles.create(300, 300, 'ball');
+    this.ball.body.setCircle(16);
+    this.ball.body.setCollisionGroup(ballCollisionGroup);
+    this.ball.body.collides([ballCollisionGroup, paddlesCollisionGroup, wallsCollisionGroup]);
+    this.ball.body.debug = true;
+    this.ball.body.velocity.x = -110;
+    this.ball.body.velocity.y = -100;
 
     var walls = this.add.group();
     walls.enableBody = true;
     walls.physicsBodyType = Phaser.Physics.P2JS;
 
-    /*for (var i=0;i<4;i++)
-    {
-      var wall = walls.create(200+50*i,200,'ball');
-      wall.body.setRectangle(40,40);
-      wall.body.damping = 0;
-      wall.body.debug = true;
-      wall.body.setCollisionGroup(wallsCollisionGroup);
-      wall.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
-      wall.body.rotateLeft(50+100*i);
-      wall.body.thrust(200000);
-    }*/
-
     var width = 400;
     var height = 400;
 
-    var length = 4;//this.players.length;
+    var length = this.players.length;
     var point = 0;
 
     var x;
@@ -88,13 +65,8 @@ MultiPong.ServerGame.prototype = {
     var paddle_width;
     var paddle_height = 5;
 
-    var constant_distance = 100;
-
-    for(var i=0;i<4;i++)//for (p in this.players)
+    for (p in this.players)
     {
-      if (i === 0)
-        this.check_input(this.players[i]);
-
       // create paddle
       x = Math.sin(point/(length*2) * Math.PI * 2) * width/2 + width/2;
       y = Math.cos(point/(length*2) * Math.PI * 2) * height/2 + height/2;
@@ -107,21 +79,13 @@ MultiPong.ServerGame.prototype = {
       max_p2.x = next_x;
       max_p2.y = next_y;
 
-      paddle_width = Math.sqrt( Math.pow(x-next_x,2) + Math.pow(y-next_y,2) ) / 4;
+      paddle_width = Math.sqrt( Math.pow(x-next_x,2) + Math.pow(y-next_y,2) ) / length;
 
-      var paddle_model = new Paddle(max_p1, max_p2, paddle_width, paddle_height, this.players[0]);// this.players[p]);
-      this.players[0].set_paddle(paddle_model);
+      var paddle_model = new Paddle(max_p1, max_p2, paddle_width, paddle_height, this.players[p]);
+      this.players[p].set_paddle(paddle_model);
 
-      // TODO Create shape of the line;
-
-      var paddle = paddles.create(paddle_model.middle.x+constant_distance,paddle_model.middle.y+constant_distance);
+      var paddle = paddles.create(paddle_model.middle.x+this.constant_distance,paddle_model.middle.y+this.constant_distance);
       this.paddle_array.push(paddle);
-      /*var shapeGr = this.add.graphics();
-      shapeGr.lineStyle(paddle_height, 0x1d428a, 1);
-      shapeGr.moveTo(0,0);
-      shapeGr.lineTo(paddle_model.p2.x,paddle_model.p2.y);
-      shapeGr.boundsPadding = 0;
-      paddle.addChild(shapeGr);*/
       paddle.body.addRectangle(paddle_width,paddle_height,0,0);
       paddle.body.adjustCenterOfMass();
       paddle.body.removeShape(paddle.body.data.shapes[0]);
@@ -129,11 +93,10 @@ MultiPong.ServerGame.prototype = {
       paddle.body.kinematic = true;
       paddle.body.debug = true;
       paddle.body.setCollisionGroup(paddlesCollisionGroup);
-      paddle.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
+      paddle.body.collides([ballCollisionGroup, paddlesCollisionGroup, wallsCollisionGroup]);
       paddle.body.rotation = paddle_model.get_angle();
 
       point++;
-      // create paddle
 
       x = Math.sin(point/(length*2) * Math.PI * 2) * width/2 + width/2;
       y = Math.cos(point/(length*2) * Math.PI * 2) * height/2 + height/2;
@@ -150,14 +113,8 @@ MultiPong.ServerGame.prototype = {
 
       paddle_model = new Paddle(max_p1, max_p2, paddle_width, paddle_height, null);
 
-      // TODO Create shape of the wall;
-      var wall = walls.create(paddle_model.middle.x+constant_distance,paddle_model.middle.y+constant_distance);
-      /*var shapeGr = this.add.graphics();
-      shapeGr.lineStyle(paddle_height, 0x1d428a, 1);
-      shapeGr.moveTo(paddle_model.p1.x,paddle_model.p1.y);
-      shapeGr.lineTo(paddle_model.p2.x,paddle_model.p2.y);
-      shapeGr.boundsPadding = 0;
-      wall.addChild(shapeGr);*/
+      var wall = walls.create(paddle_model.middle.x+this.constant_distance,paddle_model.middle.y+this.constant_distance);
+
       wall.body.addRectangle(paddle_width,paddle_height,0,0);
       wall.body.adjustCenterOfMass();
       wall.body.removeShape(wall.body.data.shapes[0]);
@@ -165,23 +122,24 @@ MultiPong.ServerGame.prototype = {
       wall.body.kinematic = true;
       wall.body.debug = true;
       wall.body.setCollisionGroup(wallsCollisionGroup);
-      wall.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
+      wall.body.collides([ballCollisionGroup, paddlesCollisionGroup, wallsCollisionGroup]);
       wall.body.rotation = paddle_model.get_angle();
 
       point++;
+
+      this.check_input(this.players[p]);
     }
   },
 
   update: function () {
     for(p in this.players) {
       player = this.players[p];
-
       paddle = player.get_paddle();
       state = player.get_state();
       paddle.tick(this.paddle_array[p]);
-
-      // TODO Redraw paddle;
     }
+    if(!this.game_over)
+      this.is_game_over();
   },
 
   check_input: function(player) {
@@ -195,8 +153,19 @@ MultiPong.ServerGame.prototype = {
         state.b2 = true;
       }
       player.handle_input(state);
-      console.log("Received "+data+" from "+player.name);
 
     });
+  },
+
+  is_game_over: function() {
+    var circle = new Phaser.Circle(300, 300, 400);
+
+    var dist = circle.distance(this.ball, 1);
+    if(dist > circle.diameter/2) {
+      console.log('You are dead');
+      this.ball.body.velocity.x = 0;
+      this.ball.body.velocity.y = 0;
+      this.game_over = true;
+    }
   }
 }

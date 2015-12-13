@@ -9,7 +9,7 @@ MultiPong.ServerWaiting.prototype = {
 
     this.add.text(400, 300, this.connection.id,{fill: "#fff"});
     // temporarily hardcoded
-    this.player_count = 1;
+    this.player_count = 4;
     var that = this;
     var temp_name = 0;
     this.connection.server.on('connection', function (new_conn) {

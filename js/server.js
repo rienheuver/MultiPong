@@ -1,6 +1,6 @@
 function Server() {
   this.id = makeid();
-  this.server = new Peer(this.id, {host: 'localhost', port: 9000, path: '/', debug: 3});
+  this.server = new Peer(this.id, {host: '130.89.138.104', port: 9000, path: '/', debug: 3});
 }
 
 Server.prototype.send = function(players, data)
