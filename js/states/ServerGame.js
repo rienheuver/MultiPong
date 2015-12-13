@@ -9,6 +9,7 @@ MultiPong.ServerGame.prototype = {
   init: function(players, connection) {
     this.players = players;
     this.connection = connection;
+    this.game_over = false;
   },
 
   preload: function () {
@@ -48,7 +49,9 @@ MultiPong.ServerGame.prototype = {
       paddle.body.setCollisionGroup(paddlesCollisionGroup);
       paddle.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
       paddle.body.rotation = 36;
-      paddle.body.moveLeft(5);
+      paddle.body.velocity.y = 100;
+      paddle.body.velocity.x = 100;
+      paddle.body.debug = true;
     }
 
     var walls = this.add.group();
@@ -70,7 +73,7 @@ MultiPong.ServerGame.prototype = {
     var width = 800;
     var height = 600;
 
-    var length = this.players.length;
+    //var length = this.players.length;
     var point = 0;
 
     var x;
@@ -157,6 +160,12 @@ MultiPong.ServerGame.prototype = {
 
       point++;
     }
+    this.ball = this.add.sprite(this.world.centerX, this.world.centerY, 'ball');
+    this.physics.arcade.enable(this.ball);
+    //this.ball.setCollisionGroup(paddlesCollisionGroup);
+    this.ball.body.velocity.x = -35;
+    this.ball.body.velocity.y = -30;
+    this.ball.anchor.setTo(0.5, 0.5);
   },
 
   update: function () {
@@ -170,6 +179,8 @@ MultiPong.ServerGame.prototype = {
 
       // TODO Redraw paddle;
     }*/
+    if(!this.game_over)
+      this.is_game_over();
   },
 
   check_input: function(player) {
@@ -186,5 +197,21 @@ MultiPong.ServerGame.prototype = {
       console.log("Received "+data+" from "+player.name);
 
     });
+  },
+
+  is_game_over: function() {
+    var circle = new Phaser.Circle(this.world.centerX, this.world.centerY, this.world.centerY*2);
+
+    var circleDraw = this.add.graphics(0,0);
+    circleDraw.lineStyle(4, 0xff00ff, 1);
+    circleDraw.drawCircle(circle.x, circle.y, circle.diameter);
+
+    var dist = circle.distance(this.ball, 1);
+    if(dist > circle.diameter/2) {
+      console.log('You are dead');
+      this.ball.body.velocity.x = 0;
+      this.ball.body.velocity.y = 0;
+      this.game_over = true;
+    }
   }
 }
