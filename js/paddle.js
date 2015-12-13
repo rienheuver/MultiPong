@@ -18,58 +18,30 @@ function Paddle(max_p1, max_p2, width, height, player) {
 
   this.position = 0;
 
-  this.tick = function (body) {
-    b1, b2 = this.player.get_state();
+  this.tick = function (paddle) {
+    state = this.player.get_state();
+    b1 = state.b1;
+    b2 = state.b2;
     if (!((b1 == false && b2 == false) || (b1 == true && b2 == true))) {
       if(b1 == false) {
-        body.velocity.x = 0;
-        body.velocity.y = 0;
+        paddle.body.velocity.x = 0;
+        paddle.body.velocity.y = 0;
       }
       else{
-        body.velocity.x = 10 * Math.sin(this.angle);
-        body.velocity.y = 10 * Math.cos(this.angle);
+        paddle.body.velocity.x = 50 * Math.sin(this.angle);
+        paddle.body.velocity.y = 50 * Math.cos(this.angle);
       }
 
       if(b2 == false) {
-        body.velocity.x = 0;
-        body.velocity.y = 0;
+        paddle.body.velocity.x = 0;
+        paddle.body.velocity.y = 0;
       }
       else{
-        body.velocity.x = 10 * Math.sin(this.angle);
-        body.velocity.y = 10 * Math.cos(this.angle);
+        paddle.body.velocity.x = 50 * Math.sin(this.angle);
+        paddle.body.velocity.y = -50 * Math.cos(this.angle);
       }
-    }
-
-
-
-    if (!((b1 == false && b2 == false) || (b1 == true && b2 == true))) {
-      //TODO controle op welke kant de Paddle op moet, en deze dan ook deze kant op verplaatsen. Let hier op de angle.
-      if(b1 == true) {
-        // move right
-        this.position += 10;
-        if(this.position > distance(max_p1.x - max_p2.x, max_p1.y - max_p2.y) / 2) {
-          this.position = distance(max_p1.x - max_p2.x, max_p1.y - max_p2.y) / 2;
-        }
-      }
-      else if(b2 == true) {
-        // move left
-        this.position -= 10;
-        if(this.position < distance(max_p1.x - max_p2.x, max_p1.y - max_p2.y) / 2) {
-          this.position = -distance(max_p1.x - max_p2.x, max_p1.y - max_p2.y) / 2;
-        }
-      }
-      var angle = this.angle;
-      var new_middle = {x: 0, y:0};
-      new_middle.x = this.middle.x + position * Math.sin(angle);
-      new_middle.y = this.middle.y + position * Math.cos(angle);
-
-      set_positions(new_middle);
     }
   };
-}
-
-var distance = function(a,b) {
-  return Math.sqrt(a*a, b*b);
 }
 
 Paddle.prototype.get_angle = function () {

@@ -88,6 +88,8 @@ MultiPong.ServerGame.prototype = {
     var paddle_width;
     var paddle_height = 5;
 
+    var constant_distance = 100;
+
     for(var i=0;i<4;i++)//for (p in this.players)
     {
       if (i === 0)
@@ -107,12 +109,12 @@ MultiPong.ServerGame.prototype = {
 
       paddle_width = Math.sqrt( Math.pow(x-next_x,2) + Math.pow(y-next_y,2) ) / 4;
 
-      var paddle_model = new Paddle(max_p1, max_p2, paddle_width, paddle_height, null);// this.players[p]);
+      var paddle_model = new Paddle(max_p1, max_p2, paddle_width, paddle_height, this.players[0]);// this.players[p]);
       this.players[0].set_paddle(paddle_model);
 
       // TODO Create shape of the line;
 
-      var paddle = paddles.create(paddle_model.middle.x,paddle_model.middle.y);
+      var paddle = paddles.create(paddle_model.middle.x+constant_distance,paddle_model.middle.y+constant_distance);
       this.paddle_array.push(paddle);
       /*var shapeGr = this.add.graphics();
       shapeGr.lineStyle(paddle_height, 0x1d428a, 1);
@@ -149,7 +151,7 @@ MultiPong.ServerGame.prototype = {
       paddle_model = new Paddle(max_p1, max_p2, paddle_width, paddle_height, null);
 
       // TODO Create shape of the wall;
-      var wall = walls.create(paddle_model.middle.x,paddle_model.middle.y);
+      var wall = walls.create(paddle_model.middle.x+constant_distance,paddle_model.middle.y+constant_distance);
       /*var shapeGr = this.add.graphics();
       shapeGr.lineStyle(paddle_height, 0x1d428a, 1);
       shapeGr.moveTo(paddle_model.p1.x,paddle_model.p1.y);
@@ -162,7 +164,7 @@ MultiPong.ServerGame.prototype = {
       wall.body.damping = 0;
       wall.body.kinematic = true;
       wall.body.debug = true;
-      wall.body.setCollisionGroup(paddlesCollisionGroup);
+      wall.body.setCollisionGroup(wallsCollisionGroup);
       wall.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
       wall.body.rotation = paddle_model.get_angle();
 
@@ -171,13 +173,12 @@ MultiPong.ServerGame.prototype = {
   },
 
   update: function () {
-    for(p in players) {
-      player = players[p];
+    for(p in this.players) {
+      player = this.players[p];
 
-      paddle = player.get_paddle;
-      state = player.get_state;
-
-      paddle.tick(paddle_array[p]);
+      paddle = player.get_paddle();
+      state = player.get_state();
+      paddle.tick(this.paddle_array[p]);
 
       // TODO Redraw paddle;
     }
