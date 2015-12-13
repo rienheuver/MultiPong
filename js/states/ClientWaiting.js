@@ -10,7 +10,7 @@ MultiPong.ClientWaiting.prototype = {
     this.connection_id_input.id = 'connection_id_input';
     document.body.appendChild(this.connection_id_input);
 
-    var knopje = this.add.button(200,150,'knopje',this.connect,this);
+    var knopje = this.add.button(this.world.centerX-100,this.world.centerY,'button_connect',this.connect,this,1,2);
   },
 
   connect: function () {

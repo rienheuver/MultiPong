@@ -12,8 +12,8 @@ MultiPong.ClientGame.prototype =
 
   create: function ()
   {
-    var links = this.add.button(10,10,'knopje',this.left_click,this);
-    var rechts = this.add.button(400,10,'knopje',this.right_click,this);
+    var links = this.add.button(this.world.centerX-120,this.world.centerY,'button_left',this.left_click,this,1,2);
+    var rechts = this.add.button(this.world.centerX+20,this.world.centerY,'button_right',this.right_click,this,1,2);
   },
 
   left_click: function()
