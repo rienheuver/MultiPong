@@ -19,15 +19,18 @@ function Paddle(max_p1, max_p2, width, height, player) {
   this.position = 0;
 
   this.tick = function (body) {
-    b1, b2 = this.player.get_state();
+
     if (!((b1 == false && b2 == false) || (b1 == true && b2 == true))) {
+      temp = 0;
+
       if(b1 == false) {
         body.velocity.x = 0;
         body.velocity.y = 0;
       }
       else{
         body.velocity.x = 10 * Math.sin(this.angle);
-        body.velocity.y = 10 * Math.cos(this.angle);
+        body.velocity.y = -10 * Math.cos(this.angle);
+        temp -= 10;
       }
 
       if(b2 == false) {
@@ -35,8 +38,14 @@ function Paddle(max_p1, max_p2, width, height, player) {
         body.velocity.y = 0;
       }
       else{
-        body.velocity.x = 10 * Math.sin(this.angle);
+        body.velocity.x = -10 * Math.sin(this.angle);
         body.velocity.y = 10 * Math.cos(this.angle);
+        temp += 10;
+      }
+      this.posision += temp;
+      if(this.posision > 100 || this.posision < 100) {
+        body.velocity.x = 0;
+        body.velocity.y = 0;
       }
     }
 
@@ -69,7 +78,7 @@ function Paddle(max_p1, max_p2, width, height, player) {
 }
 
 var distance = function(a,b) {
-  return Math.sqrt(a*a, b*b);
+  return Math.sqrt(a*a + b*b);
 }
 
 Paddle.prototype.get_angle = function () {
