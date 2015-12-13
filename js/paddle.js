@@ -12,6 +12,8 @@ function Paddle(max_p1, max_p2, width, height, player) {
   this.middle.x = Math.abs(this.max_p1.x - this.max_p2.x) / 2 + Math.min(this.max_p1.x, this.max_p2.x);
   this.middle.y = Math.abs(this.max_p1.y - this.max_p2.y) / 2 + Math.min(this.max_p1.y, this.max_p2.y);
 
+  this.angle = Math.atan2(this.max_p2.y - this.max_p1.y, this.max_p2.x - this.max_p1.x);
+
   this.set_positions(this.middle);
 
   this.position = 0;
@@ -48,12 +50,13 @@ var distance = function(a,b) {
   return Math.sqrt(a*a, b*b);
 }
 
+Paddle.prototype.get_angle = function () {
+  return this.angle;
+}
+
 Paddle.prototype.set_positions = function (middle) {
-  var angle = Math.atan2(this.max_p2.y - this.max_p1.y, this.max_p2.x - this.max_p1.x);
-
-  this.p1.x = middle.x - this.width * Math.cos(angle);
-  this.p1.y = middle.y - this.height * Math.sin(angle);
-  this.p2.x = middle.x + this.width * Math.cos(angle);
-  this.p2.y = middle.y + this.height * Math.sin(angle);
-
+  this.p1.x = middle.x - this.width / 2;
+  this.p1.y = middle.y - this.height / 2;
+  this.p2.x = middle.x + this.width / 2;
+  this.p2.y = middle.y + this.height / 2;
 };
