@@ -1,5 +1,6 @@
 function Game() {
-  this.game = new Phaser.Game(800, 600, Phaser.AUTO, '');
+  this.game = new Phaser.Game("100","100");
+  console.log(this.game);
 }
 
 Game.prototype = {

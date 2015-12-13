@@ -18,8 +18,30 @@ function Paddle(max_p1, max_p2, width, height, player) {
 
   this.position = 0;
 
-  this.tick = function () {
+  this.tick = function (body) {
     b1, b2 = this.player.get_state();
+    if (!((b1 == false && b2 == false) || (b1 == true && b2 == true))) {
+      if(b1 == false) {
+        body.velocity.x = 0;
+        body.velocity.y = 0;
+      }
+      else{
+        body.velocity.x = 10 * Math.sin(this.angle);
+        body.velocity.y = 10 * Math.cos(this.angle);
+      }
+
+      if(b2 == false) {
+        body.velocity.x = 0;
+        body.velocity.y = 0;
+      }
+      else{
+        body.velocity.x = 10 * Math.sin(this.angle);
+        body.velocity.y = 10 * Math.cos(this.angle);
+      }
+    }
+
+
+
     if (!((b1 == false && b2 == false) || (b1 == true && b2 == true))) {
       //TODO controle op welke kant de Paddle op moet, en deze dan ook deze kant op verplaatsen. Let hier op de angle.
       if(b1 == true) {
@@ -36,7 +58,7 @@ function Paddle(max_p1, max_p2, width, height, player) {
           this.position = -distance(max_p1.x - max_p2.x, max_p1.y - max_p2.y) / 2;
         }
       }
-      var angle = Math.atan2(this.max_p2.y - this.max_p1.y, this.max_p2.x - this.max_p1.x);
+      var angle = this.angle;
       var new_middle = {x: 0, y:0};
       new_middle.x = this.middle.x + position * Math.sin(angle);
       new_middle.y = this.middle.y + position * Math.cos(angle);
