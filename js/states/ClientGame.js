@@ -18,11 +18,11 @@ MultiPong.ClientGame.prototype =
 
   left_click: function()
   {
-    this.connection.send("left");
+    this.connection.send("10");
   },
 
   right_click: function()
   {
-    this.connection.send("right");
+    this.connection.send("01");
   }
 }
