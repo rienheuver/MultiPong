@@ -89,7 +89,6 @@ MultiPong.ServerGame.prototype = {
 
     for(var i;i<4;i++)//for (p in this.players)
     {
-      //this.check_input(this.players[p]);
 
       // create paddle
       x = Math.sin(point/(length*2) * Math.pi * 2) * width + width/2;
@@ -112,6 +111,7 @@ MultiPong.ServerGame.prototype = {
       var shapeGr = this.add.graphics();
       shapeGr.lineStyle(5, 0x1d428a, 1);
       shapeGr.moveTo(paddle_model.p1.x,paddle_model.p1.y);
+      console.log(paddle_model);
       shapeGr.lineTo(paddle_model.p2.x,paddle_model.p2.y);
       shapeGr.boundsPadding = 0;
       paddle.addChild(shapeGr);
