@@ -19,7 +19,8 @@ MultiPong.ServerGame.prototype = {
   create: function () {
     this.physics.startSystem(Phaser.Physics.P2JS);
     this.physics.p2.setImpactEvents(true);
-    this.physics.p2.defaultRestitution = 0;
+    this.physics.p2.defaultRestitution = 1;
+    this.physics.p2.restitution = 1;
     this.physics.p2.applyDamping = false;
     this.physics.p2.friction = 0;
 
@@ -46,10 +47,11 @@ MultiPong.ServerGame.prototype = {
       paddle.body.removeShape(paddle.body.data.shapes[0]);
       paddle.body.damping = 0;
       paddle.body.kinematic = true;
+      paddle.body.debug = true;
       paddle.body.setCollisionGroup(paddlesCollisionGroup);
       paddle.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
       paddle.body.rotation = 36;
-      paddle.body.moveLeft(5);
+      paddle.body.moveLeft(50);
     }
 
     var walls = this.add.group();
