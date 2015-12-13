@@ -5,9 +5,8 @@ function Player(game, max_p1, max_p2, width, height) {
   this.ready = false;
 
   this.handle_input = function (input) {
-    b1, b2 = input;
-    state.b1 = b1;
-    state.b2 = b2;
+    state.b1 = input.b1;
+    state.b2 = input.b2;
   };
 
   this.get_paddle = function () {

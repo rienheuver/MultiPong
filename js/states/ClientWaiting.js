@@ -15,12 +15,14 @@ MultiPong.ClientWaiting.prototype = {
 
   connect: function () {
     var connection_id = this.connection_id_input.value;
-    peer2 = new Peer({host: '130.89.138.104', port: 9000, path: '/', debug: 3});
-    var c = peer2.connect(connection_id);
-    console.log(c);
-    c.on('data', function (data) {
-      console.log(data);
-      c.send(' peer');
+    this.connection = new Client(connection_id);
+    var that = this;
+    this.connection.client.on('data',function(data)
+    {
+      if (data == "start")
+      {
+        that.state.start('ClientGame');
+      }
     });
   }
 };

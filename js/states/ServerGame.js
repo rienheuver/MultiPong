@@ -23,7 +23,7 @@ MultiPong.ServerGame.prototype = {
 
     this.physics.enable([knocker,ball], Phaser.Physics.ARCADE);
 
-    knocker.body.immovable = true;
+    knocker.body.immovable = false;
 
     //  This gets it moving
     ball.body.velocity.setTo(200, 200);
