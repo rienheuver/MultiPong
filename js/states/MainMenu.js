@@ -9,10 +9,10 @@ MultiPong.MainMenu.prototype = {
   },
 
   client: function () {
-    this.state.start('ClientGame');
+    this.state.start('ClientWaiting');
   },
 
   server: function () {
-    this.state.start('ServerGame');
+    this.state.start('ServerWaiting');
   }
 };

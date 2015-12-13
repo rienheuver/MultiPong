@@ -32,7 +32,7 @@ MultiPong.ServerGame.prototype = {
     paddles.enableBody = true;
     paddles.physicsBodyType = Phaser.Physics.P2JS;
 
-    for (var i=0;i<4;i++)
+    /*for (var i=0;i<4;i++)
     {
       var paddle = paddles.create(80*(i+3),80*(i+3));
       var shapeGr = this.add.graphics();
@@ -51,13 +51,13 @@ MultiPong.ServerGame.prototype = {
       paddle.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
       paddle.body.rotation = 36;
       paddle.body.moveLeft(50);
-    }
+    }*/
 
     var walls = this.add.group();
     walls.enableBody = true;
     walls.physicsBodyType = Phaser.Physics.P2JS;
 
-    for (var i=0;i<4;i++)
+    /*for (var i=0;i<4;i++)
     {
       var wall = walls.create(200+50*i,200,'ball');
       wall.body.setRectangle(40,40);
@@ -67,7 +67,7 @@ MultiPong.ServerGame.prototype = {
       wall.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
       wall.body.rotateLeft(50+100*i);
       wall.body.thrust(200000);
-    }
+    }*/
 
     var width = 800;
     var height = 600;
@@ -87,9 +87,9 @@ MultiPong.ServerGame.prototype = {
     var paddle_width;
     var paddle_height = 20;
 
-    for (p in this.players)
+    for(var i;i<4;i++)//for (p in this.players)
     {
-      this.check_input(this.players[p]);
+      //this.check_input(this.players[p]);
 
       // create paddle
       x = Math.sin(point/(length*2) * Math.pi * 2);
@@ -103,8 +103,8 @@ MultiPong.ServerGame.prototype = {
 
       paddle_width = Math.sqrt( Math.pow(x-next_x,2), Math.pow(y-next_y,2) ) / 4;
 
-      var paddle_model = new Paddle(max_p1, max_p2, paddle_width, paddle_height, this.players[p]);
-      this.players[p].set_paddle(paddle_model);
+      var paddle_model = new Paddle(max_p1, max_p2, paddle_width, paddle_height, null);// this.players[p]);
+      //this.players[p].set_paddle(paddle_model);
 
       // TODO Create shape of the line;
 
@@ -114,15 +114,16 @@ MultiPong.ServerGame.prototype = {
       shapeGr.moveTo(paddle_model.p1.x,paddle_model.p1.y);
       shapeGr.lineTo(paddle_model.p2.x,paddle_model.p2.y);
       shapeGr.boundsPadding = 0;
-      wall.addChild(shapeGr);
-      wall.body.addRectangle(100,5,75,2);
-      wall.body.adjustCenterOfMass();
-      wall.body.removeShape(paddle.body.data.shapes[0]);
-      wall.body.damping = 0;
-      wall.body.kinematic = true;
-      wall.body.setCollisionGroup(paddlesCollisionGroup);
-      wall.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
-      wall.body.rotation = paddle_model.get_angle();
+      paddle.addChild(shapeGr);
+      paddle.body.addRectangle(100,5,75,2);
+      paddle.body.adjustCenterOfMass();
+      paddle.body.removeShape(paddle.body.data.shapes[0]);
+      paddle.body.damping = 0;
+      paddle.body.kinematic = true;
+      paddle.body.debug = true;
+      paddle.body.setCollisionGroup(paddlesCollisionGroup);
+      paddle.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
+      paddle.body.rotation = paddle_model.get_angle();
 
       point++;
       // create paddle
@@ -153,6 +154,7 @@ MultiPong.ServerGame.prototype = {
       wall.body.removeShape(paddle.body.data.shapes[0]);
       wall.body.damping = 0;
       wall.body.kinematic = true;
+      wall.body.debug = true;
       wall.body.setCollisionGroup(paddlesCollisionGroup);
       wall.body.collides([paddlesCollisionGroup, wallsCollisionGroup]);
       wall.body.rotation = paddle_model.get_angle();
