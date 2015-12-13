@@ -28,6 +28,5 @@ Game.prototype.start = function () {
   this.game.state.add('ServerGame', MultiPong.ServerGame);
   this.game.state.add('ClientGame', MultiPong.ClientGame);
 
-
   this.game.state.start('Boot');
 };

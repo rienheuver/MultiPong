@@ -21,7 +21,8 @@ MultiPong.ClientWaiting.prototype = {
     {
       if (data == "start")
       {
-        that.state.start('ClientGame');
+        that.connection_id_input.remove();
+        that.state.start('ClientGame', true, false, that.connection);
       }
     });
   }

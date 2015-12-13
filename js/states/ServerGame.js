@@ -1,7 +1,14 @@
 MultiPong.ServerGame = function (game) {
+  this.players;
+  this.connection;
 };
 
 MultiPong.ServerGame.prototype = {
+
+  init: function(players, connection) {
+    this.players = players;
+    this.connection = connection;
+  },
 
   preload: function () {
     this.load.image('dude', 'assets/pangball.png');
@@ -53,6 +60,11 @@ MultiPong.ServerGame.prototype = {
     //  This sets the image bounce energy for the horizontal
     //  and vertical vectors (as an x,y point). "1" is 100% energy return
     ball.body.bounce.setTo(1, 1);
+
+    for (p in this.players)
+    {
+      this.check_input(this.players[p]);
+    }
   },
 
   update: function () {
@@ -73,5 +85,13 @@ MultiPong.ServerGame.prototype = {
     else {
       knocker.body.velocity.setTo(0, 0);
     }
+  },
+
+  check_input: function(player) {
+    player.connection.on("data", function(data)
+    {
+
+      console.log("Received "+data+" from "+player.name);
+    });
   }
 }

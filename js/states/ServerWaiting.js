@@ -11,11 +11,13 @@ MultiPong.ServerWaiting.prototype = {
     // temporarily hardcoded
     this.player_count = 4;
     var that = this;
+    var temp_name = 0;
     this.connection.server.on('connection', function (new_conn) {
       var player;
       if (that.players.length < that.player_count) {
-        player = new Player(that, 0, 0, 0, 0);
-        var inputController = new InputController(player, new_conn);
+        player = new Player(that, 0, 0, 0, 0, new_conn, temp_name);
+        temp_name++
+        //var inputController = new InputController(player, new_conn);
         that.players.push(player);
       }
       new_conn.on('open', function () {
@@ -29,9 +31,9 @@ MultiPong.ServerWaiting.prototype = {
             }
           }
           if (all_ready) {
-            // for all clients do next line
-              that.connection.server.send("start");
-            that.state.start("ServerGame");
+            that.connection.send(that.players,"start");
+            // send player_array and Server-object to new state's init
+            that.state.start("ServerGame", true, false, that.players,that.connection);
           }
         }
       });
