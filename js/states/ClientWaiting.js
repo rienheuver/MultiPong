@@ -27,9 +27,10 @@ MultiPong.ClientWaiting.prototype = {
     var that = this;
     this.connection.client.on('data',function(data)
     {
-      if (data == "start")
+      if (data.indexOf("start") >= 0)
       {
-        that.state.start('ClientGame', true, false, that.connection);
+        console.log(data);
+        that.state.start('ClientGame', true, false, that.connection, data.substring("start".length,data[data.length]));
       }
     });
   }

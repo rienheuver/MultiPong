@@ -40,8 +40,13 @@ MultiPong.ServerGame.prototype = {
     this.ball.body.setCollisionGroup(ballCollisionGroup);
     this.ball.body.collides([ballCollisionGroup, paddlesCollisionGroup, wallsCollisionGroup]);
     this.ball.body.debug = true;
-    this.ball.body.velocity.x = -110;
-    this.ball.body.velocity.y = -100;
+    var balletje = this.ball;
+    setTimeout(function(){
+      var x_dir = [-1,1][Math.floor(Math.random()*2)];
+      var y_dir = [-1,1][Math.floor(Math.random()*2)];
+      balletje.body.velocity.x = 110*x_dir;
+      balletje.body.velocity.y = -100*y_dir;
+    },5000);
 
     var walls = this.add.group();
     walls.enableBody = true;
@@ -79,7 +84,7 @@ MultiPong.ServerGame.prototype = {
       max_p2.x = next_x;
       max_p2.y = next_y;
 
-      paddle_width = Math.sqrt( Math.pow(x-next_x,2) + Math.pow(y-next_y,2) ) / length;
+      paddle_width = Math.sqrt( Math.pow(x-next_x,2) + Math.pow(y-next_y,2) ) / 4;
 
       var paddle_model = new Paddle(max_p1, max_p2, paddle_width, paddle_height, this.players[p]);
       this.players[p].set_paddle(paddle_model);
@@ -95,6 +100,10 @@ MultiPong.ServerGame.prototype = {
       paddle.body.setCollisionGroup(paddlesCollisionGroup);
       paddle.body.collides([ballCollisionGroup, paddlesCollisionGroup, wallsCollisionGroup]);
       paddle.body.rotation = paddle_model.get_angle();
+
+      text_x = -8+this.constant_distance+paddle_model.middle.x;
+      text_y = -17+this.constant_distance+paddle_model.middle.y;
+      var text = this.add.text(text_x,text_y,this.players[p].name,{fill: "#fff", font: "bold 30pt Arial"});
 
       point++;
 

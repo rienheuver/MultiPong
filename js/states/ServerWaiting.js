@@ -31,7 +31,10 @@ MultiPong.ServerWaiting.prototype = {
             }
           }
           if (all_ready) {
-            that.connection.send(that.players,"start");
+            for (p in that.players)
+            {
+              that.players[p].connection.send("start"+that.players[p].name);
+            }
             // send player_array and Server-object to new state's init
             that.state.start("ServerGame", true, false, that.players,that.connection);
           }

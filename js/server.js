@@ -3,6 +3,7 @@ function Server() {
   this.server = new Peer(this.id, {host: '130.89.138.104', port: 9000, path: '/', debug: 3});
 }
 
+// currently unused
 Server.prototype.send = function(players, data)
 {
   for (p in players)
