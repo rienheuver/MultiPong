@@ -20,6 +20,7 @@ Game.prototype = {
     this.game.state.add('ClientWaiting', MultiPong.ClientWaiting);
     this.game.state.add('ServerGame', MultiPong.ServerGame);
     this.game.state.add('ClientGame', MultiPong.ClientGame);
+    this.game.state.add('ServerChooseAmount', MultiPong.ServerChooseAmount);
 
     this.game.state.start('Boot');
   }

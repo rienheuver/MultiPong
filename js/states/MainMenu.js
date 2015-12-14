@@ -13,6 +13,6 @@ MultiPong.MainMenu.prototype = {
   },
 
   server: function () {
-    this.state.start('ServerWaiting');
+    this.state.start('ServerChooseAmount');
   }
 };

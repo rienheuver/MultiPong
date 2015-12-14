@@ -19,6 +19,8 @@ function Paddle(max_p1, max_p2, width, height, player) {
 
   this.position = 0;
 
+  console.log(this.width);
+
   this.tick = function (paddle) {
     state = this.player.get_state();
     b1 = state.b1;
@@ -36,12 +38,12 @@ function Paddle(max_p1, max_p2, width, height, player) {
         paddle.body.velocity.y = 50 * Math.sin(this.angle);
         temp -= 1;
       }
-      this.position += temp;
-      if(this.position > 70 || this.position < -70) {
+      if(this.position > 1.75*this.width || this.position < -1.75*this.width) {
         paddle.body.velocity.x = 0;
         paddle.body.velocity.y = 0;
         this.position -= temp;
       }
+      this.position += temp;
     }
     else
     {
